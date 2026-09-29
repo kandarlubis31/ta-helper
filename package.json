@@ -1,0 +1,61 @@
+{
+  "name": "tara-ta",
+  "version": "0.1.0",
+  "description": "TARA — Tugas Akhir Research Agent. Chatbot berbasis web untuk bantu riset TA.",
+  "main": "src/server/index.js",
+  "bin": {
+    "tara-ta": "./bin/tara.js"
+  },
+  "scripts": {
+    "dev": "concurrently \"node src/server/index.js\" \"vite\"",
+    "build": "vite build",
+    "test": "vitest run",
+    "start": "node src/server/index.js",
+    "setup": "node bin/tara.js"
+  },
+  "keywords": [
+    "tugas-akhir",
+    "skripsi",
+    "research",
+    "ai",
+    "chatbot",
+    "indonesia"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/tara-ta"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.102.0",
+    "axios": "^1.6.0",
+    "better-sqlite3": "^12.10.0",
+    "commander": "^12.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "marked": "^18.0.5",
+    "multer": "^2.0.2",
+    "openai": "^4.0.0",
+    "pdf-parse": "^1.1.1",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1",
+    "uuid": "^9.0.0",
+    "vectra": "^0.15.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.0",
+    "concurrently": "^8.0.0",
+    "jsdom": "^29.1.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^3.2.6"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
+}

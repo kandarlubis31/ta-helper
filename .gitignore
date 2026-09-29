@@ -1,0 +1,12 @@
+node_modules/
+dist/
+data/
+.env
+*.log
+.DS_Store
+.wwebjs_cache/
+.wwebjs_auth/
+.wwebjs_data/
+gemini_session/
+.puppeteer/
+nul
