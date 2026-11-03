@@ -1,40 +1,63 @@
-# TA-helper — Project Context
+# TA-helper (TARA) — Project Context
 
 ## Ringkasan
-"AI adalah alatmu, bukan penulismu. Lo yang riset, lo yang putuskan, lo yang lulus." Tagline alternatif: - "Jadiin AI babu TA-mu — semua keputusan tetap di tangan lo." - "Lo nulis TA-mu. AI cuma angkat beban risetnya." - "Bukan robot yang lulus, tapi lo." TARA adalah chatbot berbasis web yang berjalan lokal di komputer user (localhost). User mengobrol dengan AI untuk bantu riset, nulis draft, dan cek kesamaan teks — semua berdasarkan koleksi jurnal yang user upload sendiri. Hasil tulisan tetap d
 
-> *Context ini dibuat otomatis oleh `catalog/generate_contexts.py`. Isi ulang
-> bagian ringkasan / arsitektur secara manual jika butuh detail lebih dalam.*
+TARA — Tugas Akhir Research Agent. Chatbot riset yang berjalan **lokal** di komputer pengguna untuk
+membantu menyusun tugas akhir: mengobrol dengan model, mengambil kutipan dari koleksi jurnal yang
+diunggah sendiri, dan memeriksa kesamaan teks. Draf dan jurnal tidak dikirim ke layanan penyimpanan
+mana pun; yang keluar dari mesin hanya permintaan ke API model yang dipilih.
 
-## Tech Stack
-Node.js; deps: @anthropic-ai/sdk, axios, better-sqlite3, commander, cors, dotenv, express, marked; dev: @vitejs/plugin-react, concurrently, jsdom, react, react-dom
+## Arsitektur
 
-## Struktur Utama
+Server Express dan klien React (Vite) berjalan di proses terpisah saat `npm run dev`
+(`concurrently`). Data disimpan di SQLite lewat `better-sqlite3`, lokasinya diatur `DATA_DIR`.
+
+Alur retrieval:
+
 ```
-bin/
-data/
-nul
-src/
-.env
-.env.example
-.gitignore
-.npmrc
-CONTEXT.md
-CONTRIBUTING.md
-package.json
-pnpm-lock.yaml
-README.md
-server.log
-vite.config.js
-vitest.config.js
+PDF → pdfParser → potongan teks → embeddings → vectorStore (SQLite)
+                                        ↓
+pertanyaan → siapkan konteks → agent + provider LLM → jawaban + rujukan
 ```
 
-## Cara Menjalankan
-- `npm run dev`
-- `npm run start`
-- `npm run build`
-- `npm run test`
+Provider model dipilih dari variabel lingkungan: `OPENROUTER_API_KEY` (satu kunci untuk banyak
+model, disarankan), `ANTHROPIC_API_KEY`, atau `OPENAI_API_KEY`. Minimal satu harus terisi.
 
----
+## Rute & layanan
 
-*Generated: 2026-08-08 · Path: nodeJS\TA-helper*
+| Rute | Fungsi |
+| :--- | :--- |
+| `chat` | Percakapan berbasis konteks jurnal |
+| `citations` | Daftar rujukan, dilengkapi `doiFetcher` |
+| `journals` | Unggah dan kelola koleksi PDF |
+| `plagcheck` | Cek kesamaan draf terhadap koleksi |
+| `progress` | Catatan progres pengerjaan |
+| `config` | Konfigurasi provider dan preferensi |
+
+## Struktur
+
+```
+bin/tara.js           CLI (commander), default `start`
+src/server/index.js   Server Express
+src/server/routes/    chat, citations, config, journals, plagcheck, progress
+src/server/services/  agent, embeddings, vectorStore, pdfParser, plagiarism, doiFetcher, citations
+src/server/db/        schema.js, queries.js
+src/client/           Antarmuka React + Vite
+```
+
+## Menjalankan
+
+```bash
+npm install
+cp .env.example .env     # isi minimal satu API key
+npm run dev              # server + Vite
+npm test                 # vitest
+```
+
+CLI: `npx tara-ta start`.
+
+## Jebakan yang diketahui
+
+- `better-sqlite3` adalah modul native; kalau Node baru di-upgrade, `npm rebuild` mungkin diperlukan.
+- Tanpa satu pun API key, server tetap jalan tetapi semua permintaan chat gagal.
+- Folder `data/` berisi basis data pengguna dan tidak boleh ikut di-commit.
