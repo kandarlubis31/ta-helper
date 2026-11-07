@@ -15,15 +15,15 @@ catatan tidak pernah keluar dari mesin sendiri.
 ## Fitur
 
 - **Koleksi jurnal** — unggah PDF, teks diekstrak (`pdf-parse`), dipecah, lalu di-embed ke vector
-  store lokal.
+ store lokal.
 - **Chat berbasis sumber** — jawaban diambil dari jurnal yang kamu unggah, bukan dari pengetahuan
-  umum model (`embeddings`, `vectorStore`, `agent`).
+ umum model (`embeddings`, `vectorStore`, `agent`).
 - **Sitasi** — metadata dan DOI diambil otomatis (`doiFetcher`, `citations`) supaya daftar pustaka
-  tidak diketik ulang.
+ tidak diketik ulang.
 - **Cek kesamaan teks** — `plagcheck` membandingkan draf dengan koleksi jurnal yang tersimpan.
 - **Progres** — catatan perkembangan bab dan target.
 - **Multi-provider** — OpenRouter (satu kunci untuk Claude, GPT, Gemini, DeepSeek), atau kunci
-  Anthropic/OpenAI langsung.
+ Anthropic/OpenAI langsung.
 
 ## Menjalankan
 
@@ -66,6 +66,14 @@ src/client/           Antarmuka React + Vite
 
 Node.js · Express · better-sqlite3 · React + Vite · Anthropic SDK · OpenAI SDK · `pdf-parse` ·
 `commander`
+
+---
+
+## English
+
+**TARA (Tugas Akhir Research Agent)** is a research chatbot that runs on your own computer. Journal collections, conversations, and check results live in a local SQLite database, and the API key stays in your own `.env` instead of being sent to a third-party server.
+
+---
 
 ## Lisensi
 
