@@ -67,6 +67,14 @@ src/client/           Antarmuka React + Vite
 Node.js · Express · better-sqlite3 · React + Vite · Anthropic SDK · OpenAI SDK · `pdf-parse` ·
 `commander`
 
+---
+
+## English
+
+**TARA (Tugas Akhir Research Agent)** is a research chatbot that runs on your own computer. Journal collections, conversations, and check results live in a local SQLite database, and the API key stays in your own `.env` instead of being sent to a third-party server.
+
+---
+
 ## Lisensi
 
 MIT — lihat `LICENSE`.
